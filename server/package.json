@@ -1,0 +1,21 @@
+{
+	"name": "server",
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.19.7",
+		"@hono/swagger-ui": "^0.5.3",
+		"@hono/zod-openapi": "^1.2.0",
+		"hono": "^4.11.3"
+	},
+	"devDependencies": {
+		"@types/node": "^25.0.3",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
+	}
+}

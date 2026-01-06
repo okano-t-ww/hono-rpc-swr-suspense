@@ -2,3 +2,7 @@ node_modules/
 .vite/
 dist/
 *.log
+
+# Environment variables (local overrides only)
+.env.local
+.env.*.local
