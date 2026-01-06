@@ -13,6 +13,6 @@ export type HonoClientFn<T> = () => Promise<
  * - Parses response and extracts typed data
  * - Throws DetailedError on 4xx/5xx responses
  */
-export async function honoFetcher<T>(fn: HonoClientFn<T>) {
+export async function honoFetcher<T>(fn: HonoClientFn<T>): Promise<T> {
 	return parseResponse(fn());
 }

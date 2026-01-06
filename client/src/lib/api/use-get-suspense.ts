@@ -7,7 +7,7 @@ export function useGetSuspense<T>(
 	fetcher: HonoClientFn<T>,
 	config?: Omit<SWRConfiguration<T>, "suspense">,
 ) {
-	return useSWR(key, () => honoFetcher(fetcher), {
+	return useSWR<T>(key, () => honoFetcher(fetcher), {
 		...config,
 		suspense: true,
 	});
