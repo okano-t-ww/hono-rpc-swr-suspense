@@ -1,11 +1,18 @@
-import type { ClientResponse, InferResponseType } from "hono/client";
+import type { ClientResponse } from "hono/client";
 import { parseResponse } from "hono/client";
-import type { StatusCode, SuccessStatusCode } from "hono/utils/http-status";
+import type { StatusCode } from "hono/utils/http-status";
 
-export async function honoFetcher<
-	T extends () => Promise<ClientResponse<unknown, StatusCode, string>>,
->(fn: T): Promise<InferResponseType<T, SuccessStatusCode>> {
-	return parseResponse(fn()) as Promise<
-		InferResponseType<T, SuccessStatusCode>
-	>;
+/** Hono RPC client function type that returns JSON response */
+export type HonoClientFn<T> = () => Promise<
+	ClientResponse<T, StatusCode, "json">
+>;
+
+/**
+ * Hono RPC client response fetcher
+ *
+ * - Parses response and extracts typed data
+ * - Throws DetailedError on 4xx/5xx responses
+ */
+export async function honoFetcher<T>(fn: HonoClientFn<T>) {
+	return parseResponse(fn());
 }

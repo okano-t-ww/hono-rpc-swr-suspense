@@ -1,19 +1,13 @@
-import type { ClientResponse, InferResponseType } from "hono/client";
-import type { StatusCode, SuccessStatusCode } from "hono/utils/http-status";
 import type { SWRConfiguration } from "swr";
 import useSWR from "swr";
-import { honoFetcher } from "./fetcher";
+import { type HonoClientFn, honoFetcher } from "./fetcher";
 
-type SuccessResponseType<T> = InferResponseType<T, SuccessStatusCode>;
-
-export function useGetSuspenseWithKey<
-	T extends () => Promise<ClientResponse<unknown, StatusCode, string>>,
->(
+export function useGetSuspense<T>(
 	key: string | readonly unknown[],
-	fetcher: T,
-	config?: Omit<SWRConfiguration<SuccessResponseType<T>>, "suspense">,
+	fetcher: HonoClientFn<T>,
+	config?: Omit<SWRConfiguration<T>, "suspense">,
 ) {
-	return useSWR<SuccessResponseType<T>>(key, () => honoFetcher(fetcher), {
+	return useSWR(key, () => honoFetcher(fetcher), {
 		...config,
 		suspense: true,
 	});
