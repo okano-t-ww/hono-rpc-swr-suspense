@@ -7,13 +7,6 @@ import type {
 	SuccessStatusCode,
 } from "hono/utils/http-status";
 
-/** Hono RPC client function type that returns JSON response */
-export type HonoClientFn<
-	TSuccess = unknown,
-	TError = unknown,
-	TStatus extends StatusCode = StatusCode,
-> = () => Promise<ClientResponse<TSuccess | TError, TStatus, string>>;
-
 /** Generic constraint type for Hono RPC client functions */
 export type HonoClientFnGeneric = () => Promise<
 	ClientResponse<
