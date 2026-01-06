@@ -29,7 +29,7 @@ export type InferErrorResponse<T> = InferResponseType<
  * Hono RPC client response fetcher
  *
  * - Parses response and extracts typed data
- * - Throws DetailedError on 4xx/5xx responses
+ * - On 4xx/5xx responses, parseResponse throws an error
  */
 export async function honoFetcher<T extends HonoClientFnGeneric>(
 	fn: T,
