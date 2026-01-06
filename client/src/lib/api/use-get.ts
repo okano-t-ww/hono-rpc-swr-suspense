@@ -7,17 +7,14 @@ import {
 	type InferSuccessResponse,
 } from "./fetcher";
 
-export function useGetSuspense<T extends HonoClientFnGeneric>(
+export function useGet<T extends HonoClientFnGeneric>(
 	key: string | readonly unknown[],
 	fetcher: T,
-	config?: Omit<SWRConfiguration<InferSuccessResponse<T>>, "suspense">,
+	config?: SWRConfiguration<InferSuccessResponse<T>>,
 ) {
 	return useSWR<InferSuccessResponse<T>, InferErrorResponse<T>>(
 		key,
 		() => honoFetcher(fetcher),
-		{
-			...config,
-			suspense: true,
-		},
+		config,
 	);
 }

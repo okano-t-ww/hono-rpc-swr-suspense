@@ -1,4 +1,5 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { apiErrorResponseSchema } from "../schemas/error";
 import { getUsersQuerySchema, getUsersResultSchema } from "../schemas/users";
 
 const route = createRoute({
@@ -14,6 +15,12 @@ const route = createRoute({
 				"application/json": { schema: getUsersResultSchema },
 			},
 			description: "ユーザー一覧",
+		},
+		400: {
+			content: {
+				"application/json": { schema: apiErrorResponseSchema },
+			},
+			description: "Bad Request",
 		},
 	},
 });

@@ -4,7 +4,8 @@ Hono RPC と SWR を組み合わせた型安全な API 統合パターンの最�
 
 ## パターンの核心
 
-- [fetcher.ts](client/src/lib/api/fetcher.ts) - Hono RPC 専用フェッチャー
+- [fetcher.ts](client/src/lib/api/fetcher.ts) - Hono RPC 専用フェッチャー・型定義
+- [use-get.ts](client/src/lib/api/use-get.ts) - SWR フック
 - [use-get-suspense.ts](client/src/lib/api/use-get-suspense.ts) - Suspense 対応 SWR フック
 
 ## 型の流れ
@@ -19,7 +20,7 @@ flowchart LR
     subgraph Client
         AppType -.-> |型推論| hc[hc&lt;AppType&gt;]
         hc --> Fetcher[honoFetcher]
-        Fetcher --> SWR[useGetSuspenseWithKey]
+        Fetcher --> SWR[useGet / useGetSuspense]
         SWR --> UI[React Component]
     end
 ```
