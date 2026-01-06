@@ -12,14 +12,14 @@ export type HonoClientFn<
 	TSuccess = unknown,
 	TError = unknown,
 	TStatus extends StatusCode = StatusCode,
-> = () => Promise<ClientResponse<TSuccess | TError, TStatus, "json">>;
+> = () => Promise<ClientResponse<TSuccess | TError, TStatus, string>>;
 
 /** Generic constraint type for Hono RPC client functions */
 export type HonoClientFnGeneric = () => Promise<
 	ClientResponse<
 		unknown, // NOTE: Actual types are extracted via InferSuccessResponse/InferErrorResponse
 		StatusCode,
-		"json" // NOTE: Required literal type for parseResponse type inference
+		string
 	>
 >;
 
