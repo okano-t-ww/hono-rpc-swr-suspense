@@ -1,8 +1,8 @@
 import type { GetUsersQuery } from "server/src/schemas/users";
-import { client, useGet } from "@/lib/api";
+import { client, useHc } from "@/lib/api";
 
 export function useUsers({ page, limit }: GetUsersQuery) {
-	return useGet(["users", page, limit], () =>
+	return useHc(["users", page, limit], () =>
 		client.users.$get({ query: { page, limit } }),
 	);
 }

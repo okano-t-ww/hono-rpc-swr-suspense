@@ -5,39 +5,15 @@ Hono RPC と SWR を組み合わせた型安全な API 統合パターンの最�
 ## パターンの核心
 
 - [fetcher.ts](client/src/lib/api/fetcher.ts) - Hono RPC 専用フェッチャー・型定義
-- [use-get.ts](client/src/lib/api/use-get.ts) - SWR フック
-- [use-get-suspense.ts](client/src/lib/api/use-get-suspense.ts) - Suspense 対応 SWR フック
-
-## 型の流れ
-
-```mermaid
-flowchart LR
-    subgraph Server
-        Zod[Zod Schema] --> Route[Hono Route]
-        Route --> AppType[AppType]
-    end
-
-    subgraph Client
-        AppType -.-> |型推論| hc[hc&lt;AppType&gt;]
-        hc --> Fetcher[honoFetcher]
-        Fetcher --> SWR[useGet / useGetSuspense]
-        SWR --> UI[React Component]
-    end
-```
-
-## セットアップ
-
-```bash
-pnpm install
-pnpm dev
-```
+- [use-hc.ts](client/src/lib/api/use-hc.ts) - SWR フック
+- [use-hc-suspense.ts](client/src/lib/api/use-hc-suspense.ts) - Suspense 対応 SWR フック
 
 ## ディレクトリ構成
 
 ```text
 ├── client/
 │   └── src/
-│       ├── lib/api/          # fetcher, use-get-suspense ←ここが核心
+│       ├── lib/api/          # fetcher, use-hc-suspense ←ここが核心
 │       └── features/users/   # 使用例
 └── server/
     └── src/

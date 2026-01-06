@@ -7,7 +7,7 @@ import {
 	type InferSuccessResponse,
 } from "./fetcher";
 
-export function useGet<T extends HonoClientFnGeneric>(
+export function useHc<T extends HonoClientFnGeneric>(
 	key: string | readonly unknown[],
 	fetcher: T,
 	config?: SWRConfiguration<InferSuccessResponse<T>>,

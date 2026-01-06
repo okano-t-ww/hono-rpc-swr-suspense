@@ -1,8 +1,8 @@
 import type { GetUsersQuery } from "server/src/schemas/users";
-import { client, useGetSuspense } from "@/lib/api";
+import { client, useHcSuspense } from "@/lib/api";
 
 export function useUsersSuspense({ page, limit }: GetUsersQuery) {
-	const { data } = useGetSuspense(["users", page, limit], () =>
+	const { data } = useHcSuspense(["users", page, limit], () =>
 		client.users.$get({ query: { page, limit } }),
 	);
 
