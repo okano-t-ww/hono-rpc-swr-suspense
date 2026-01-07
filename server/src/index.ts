@@ -3,12 +3,12 @@ import { swaggerUI } from "@hono/swagger-ui";
 import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { createHono } from "./lib/create-hono";
-import { usersRoute } from "./routes/users";
+import { usersRoute } from "./routes/users.route";
 import type {
 	BaseErrorResponse,
 	InternalServerErrorResponse,
 	NotFoundResponse,
-} from "./schemas/error";
+} from "./schemas/error.schema";
 
 const app = createHono();
 

@@ -5,11 +5,9 @@ export function useCreateUser() {
 	const { mutate } = useSWRConfig();
 
 	const invalidateUsersCache = () => {
-		mutate(
-			(key) => Array.isArray(key) && key[0] === "users",
-			undefined,
-			{ revalidate: true },
-		);
+		mutate((key) => Array.isArray(key) && key[0] === "users", undefined, {
+			revalidate: true,
+		});
 	};
 
 	return {
