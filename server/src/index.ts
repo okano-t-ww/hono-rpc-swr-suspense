@@ -4,6 +4,11 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { createApp } from "./lib/create-app";
 import { usersRoute } from "./routes/users";
+import type {
+	BaseErrorResponse,
+	InternalServerErrorResponse,
+	NotFoundResponse,
+} from "./schemas/error";
 
 const app = createApp();
 
@@ -14,7 +19,7 @@ app.onError((err, c) => {
 				type: "about:blank",
 				title: err.message,
 				status: err.status,
-			},
+			} satisfies BaseErrorResponse,
 			err.status,
 		);
 	}
@@ -25,7 +30,7 @@ app.onError((err, c) => {
 			type: "about:blank",
 			title: "Internal Server Error",
 			status: 500,
-		},
+		} satisfies InternalServerErrorResponse,
 		500,
 	);
 });
@@ -37,7 +42,7 @@ app.notFound((c) => {
 			title: "Not Found",
 			status: 404,
 			instance: c.req.path,
-		},
+		} satisfies NotFoundResponse,
 		404,
 	);
 });
