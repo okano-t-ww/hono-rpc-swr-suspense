@@ -16,12 +16,19 @@ export function ErrorTypeTest() {
 	if (error) {
 		console.log("=== Error Type Test ===");
 		console.log("error:", error);
+		console.log("error.data:", error.data);
 
 		return (
 			<div style={{ border: "2px solid red", padding: "1rem", margin: "1rem" }}>
 				<h3>Error Type Test Result</h3>
+				<p>
+					<strong>Title:</strong> {error.data.title}
+				</p>
+				<p>
+					<strong>Status:</strong> {error.data.status}
+				</p>
 				<pre style={{ background: "#f5f5f5", padding: "1rem" }}>
-					{JSON.stringify(error, null, 2)}
+					{JSON.stringify(error.data, null, 2)}
 				</pre>
 			</div>
 		);

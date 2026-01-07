@@ -1,6 +1,7 @@
 import { createRoute } from "@hono/zod-openapi";
 import { createApp } from "../lib/create-app";
 import {
+	type NotFoundResponse,
 	notFoundResponseSchema,
 	unprocessableEntityResponseSchema,
 } from "../schemas/error";
@@ -61,14 +62,13 @@ export const usersRoute = createApp().openapi(route, async (c) => {
 
 	const start = (page - 1) * limit;
 
-	// 存在しないページの場合は404を返す
 	if (start >= mockUsers.length) {
 		return c.json(
 			{
 				type: "about:blank",
 				title: "Page not found",
-				status: 404 as const,
-			},
+				status: 404,
+			} satisfies NotFoundResponse,
 			404,
 		);
 	}

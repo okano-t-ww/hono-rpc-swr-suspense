@@ -5,6 +5,7 @@ import {
 	honoFetcher,
 	type InferErrorResponse,
 	type InferSuccessResponse,
+	type TypedDetailedError,
 } from "./fetcher";
 
 export function useHcSuspense<T extends HonoClientFnGeneric>(
@@ -12,12 +13,11 @@ export function useHcSuspense<T extends HonoClientFnGeneric>(
 	fetcher: T,
 	config?: Omit<SWRConfiguration<InferSuccessResponse<T>>, "suspense">,
 ) {
-	return useSWR<InferSuccessResponse<T>, InferErrorResponse<T>>(
-		key,
-		() => honoFetcher(fetcher),
-		{
-			...config,
-			suspense: true,
-		},
-	);
+	return useSWR<
+		InferSuccessResponse<T>,
+		TypedDetailedError<InferErrorResponse<T>>
+	>(key, () => honoFetcher(fetcher), {
+		...config,
+		suspense: true,
+	});
 }
