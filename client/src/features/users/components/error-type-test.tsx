@@ -1,13 +1,7 @@
-import { client, useHc } from "@/lib/api";
+import { useUsers } from "../hooks/use-users";
 
-/**
- * エラー型の検証用コンポーネント
- * 存在しないページ(page=999)をリクエストして404エラーを発生させる
- */
 export function ErrorTypeTest() {
-	const { data, error, isLoading } = useHc(["users-error-test", 999, 1], () =>
-		client.users.$get({ query: { page: 999, limit: 1 } }),
-	);
+	const { data, error, isLoading } = useUsers({ page: -1, limit: 10 });
 
 	if (isLoading) {
 		return <div>Loading...</div>;
