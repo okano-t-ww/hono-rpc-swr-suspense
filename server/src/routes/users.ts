@@ -1,5 +1,6 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { apiErrorResponseSchema } from "../schemas/error";
+import { createRoute } from "@hono/zod-openapi";
+import { createHono } from "../lib/create-hono";
+import { unprocessableEntityResponseSchema } from "../schemas/error";
 import { getUsersQuerySchema, getUsersResultSchema } from "../schemas/users";
 
 const route = createRoute({
@@ -16,11 +17,11 @@ const route = createRoute({
 			},
 			description: "ユーザー一覧",
 		},
-		400: {
+		422: {
 			content: {
-				"application/json": { schema: apiErrorResponseSchema },
+				"application/json": { schema: unprocessableEntityResponseSchema },
 			},
-			description: "Bad Request",
+			description: "Validation failed",
 		},
 	},
 });
@@ -46,7 +47,7 @@ const mockUsers = [
 	},
 ];
 
-export const usersRoute = new OpenAPIHono().openapi(route, async (c) => {
+export const usersRoute = createHono().openapi(route, async (c) => {
 	const { page, limit } = c.req.valid("query");
 
 	const start = (page - 1) * limit;

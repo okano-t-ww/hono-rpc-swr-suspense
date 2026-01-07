@@ -5,6 +5,7 @@ import {
 	honoFetcher,
 	type InferErrorResponse,
 	type InferSuccessResponse,
+	type TypedDetailedError,
 } from "./fetcher";
 
 export function useHc<T extends HonoClientFnGeneric>(
@@ -12,9 +13,8 @@ export function useHc<T extends HonoClientFnGeneric>(
 	fetcher: T,
 	config?: SWRConfiguration<InferSuccessResponse<T>>,
 ) {
-	return useSWR<InferSuccessResponse<T>, InferErrorResponse<T>>(
-		key,
-		() => honoFetcher(fetcher),
-		config,
-	);
+	return useSWR<
+		InferSuccessResponse<T>,
+		TypedDetailedError<InferErrorResponse<T>>
+	>(key, () => honoFetcher(fetcher), config);
 }
