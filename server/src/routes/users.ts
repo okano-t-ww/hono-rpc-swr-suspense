@@ -1,5 +1,5 @@
 import { createRoute } from "@hono/zod-openapi";
-import { createApp } from "../lib/create-app";
+import { createHono } from "../lib/create-hono";
 import {
 	type NotFoundResponse,
 	notFoundResponseSchema,
@@ -57,7 +57,7 @@ const mockUsers = [
 	},
 ];
 
-export const usersRoute = createApp().openapi(route, async (c) => {
+export const usersRoute = createHono().openapi(route, async (c) => {
 	const { page, limit } = c.req.valid("query");
 
 	const start = (page - 1) * limit;

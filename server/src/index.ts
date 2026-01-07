@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
 import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
-import { createApp } from "./lib/create-app";
+import { createHono } from "./lib/create-hono";
 import { usersRoute } from "./routes/users";
 import type {
 	BaseErrorResponse,
@@ -10,7 +10,7 @@ import type {
 	NotFoundResponse,
 } from "./schemas/error";
 
-const app = createApp();
+const app = createHono();
 
 app.onError((err, c) => {
 	if (err instanceof HTTPException) {

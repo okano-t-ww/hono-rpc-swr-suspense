@@ -5,7 +5,7 @@ import type { BaseErrorResponse } from "../schemas/error";
  * Creates an OpenAPIHono instance with RFC 9457 compliant defaultHook
  * Use this factory for all routers to centralize validation error handling
  */
-export const createApp = () => {
+export const createHono = () => {
 	return new OpenAPIHono({
 		defaultHook: (result, c) => {
 			if (!result.success) {
