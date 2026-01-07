@@ -1,10 +1,46 @@
 import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
+import { HTTPException } from "hono/http-exception";
+import { createApp } from "./lib/create-app";
 import { usersRoute } from "./routes/users";
 
-const app = new OpenAPIHono();
+const app = createApp();
+
+app.onError((err, c) => {
+	if (err instanceof HTTPException) {
+		return c.json(
+			{
+				type: "about:blank",
+				title: err.message,
+				status: err.status,
+			},
+			err.status,
+		);
+	}
+
+	console.error(err);
+	return c.json(
+		{
+			type: "about:blank",
+			title: "Internal Server Error",
+			status: 500,
+		},
+		500,
+	);
+});
+
+app.notFound((c) => {
+	return c.json(
+		{
+			type: "about:blank",
+			title: "Not Found",
+			status: 404,
+			instance: c.req.path,
+		},
+		404,
+	);
+});
 
 app.use("*", cors({ origin: "*" }));
 

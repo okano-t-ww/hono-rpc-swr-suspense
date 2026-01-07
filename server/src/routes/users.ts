@@ -1,5 +1,9 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { apiErrorResponseSchema } from "../schemas/error";
+import { createRoute } from "@hono/zod-openapi";
+import { createApp } from "../lib/create-app";
+import {
+	notFoundResponseSchema,
+	unprocessableEntityResponseSchema,
+} from "../schemas/error";
 import { getUsersQuerySchema, getUsersResultSchema } from "../schemas/users";
 
 const route = createRoute({
@@ -16,11 +20,17 @@ const route = createRoute({
 			},
 			description: "ユーザー一覧",
 		},
-		400: {
+		404: {
 			content: {
-				"application/json": { schema: apiErrorResponseSchema },
+				"application/json": { schema: notFoundResponseSchema },
 			},
-			description: "Bad Request",
+			description: "Not Found",
+		},
+		422: {
+			content: {
+				"application/json": { schema: unprocessableEntityResponseSchema },
+			},
+			description: "Validation failed",
 		},
 	},
 });
@@ -46,10 +56,23 @@ const mockUsers = [
 	},
 ];
 
-export const usersRoute = new OpenAPIHono().openapi(route, async (c) => {
+export const usersRoute = createApp().openapi(route, async (c) => {
 	const { page, limit } = c.req.valid("query");
 
 	const start = (page - 1) * limit;
+
+	// 存在しないページの場合は404を返す
+	if (start >= mockUsers.length) {
+		return c.json(
+			{
+				type: "about:blank",
+				title: "Page not found",
+				status: 404 as const,
+			},
+			404,
+		);
+	}
+
 	const users = mockUsers.slice(start, start + limit);
 
 	return c.json({ users, total: mockUsers.length }, 200);
