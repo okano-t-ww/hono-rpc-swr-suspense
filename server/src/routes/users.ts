@@ -1,10 +1,6 @@
 import { createRoute } from "@hono/zod-openapi";
 import { createHono } from "../lib/create-hono";
-import {
-	type NotFoundResponse,
-	notFoundResponseSchema,
-	unprocessableEntityResponseSchema,
-} from "../schemas/error";
+import { unprocessableEntityResponseSchema } from "../schemas/error";
 import { getUsersQuerySchema, getUsersResultSchema } from "../schemas/users";
 
 const route = createRoute({
@@ -20,12 +16,6 @@ const route = createRoute({
 				"application/json": { schema: getUsersResultSchema },
 			},
 			description: "ユーザー一覧",
-		},
-		404: {
-			content: {
-				"application/json": { schema: notFoundResponseSchema },
-			},
-			description: "Not Found",
 		},
 		422: {
 			content: {
@@ -61,18 +51,6 @@ export const usersRoute = createHono().openapi(route, async (c) => {
 	const { page, limit } = c.req.valid("query");
 
 	const start = (page - 1) * limit;
-
-	if (start >= mockUsers.length) {
-		return c.json(
-			{
-				type: "about:blank",
-				title: "Page not found",
-				status: 404,
-			} satisfies NotFoundResponse,
-			404,
-		);
-	}
-
 	const users = mockUsers.slice(start, start + limit);
 
 	return c.json({ users, total: mockUsers.length }, 200);
