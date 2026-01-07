@@ -1,22 +1,24 @@
-import {
-	CreateUserForm,
-	ErrorTypeTest,
-	UsersSuspenseSection,
-} from "./features/users";
+import { CreateUserForm, UsersSection } from "./features/users";
 
 export default function App() {
 	return (
-		<main>
-			<h1>Hono RPC + SWR Suspense Example</h1>
-			<section>
-				<h2>Create User (Mutation Test)</h2>
+		<main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
+			<h1>Hono RPC + SWR Example</h1>
+
+			<section style={{ marginBottom: "2rem" }}>
+				<h2>Users List</h2>
+				<UsersSection />
+			</section>
+
+			<hr />
+
+			<section style={{ marginBottom: "2rem" }}>
+				<h2>Create User</h2>
+				<p style={{ color: "#666", fontSize: "0.9rem" }}>
+					100文字超のnameや不正なemailでバリデーションエラー (422) を再現できます。
+				</p>
 				<CreateUserForm />
 			</section>
-			<hr />
-			<UsersSuspenseSection page={1} limit={20} />
-			<hr />
-			<h2>Error Type Test</h2>
-			<ErrorTypeTest />
 		</main>
 	);
 }
