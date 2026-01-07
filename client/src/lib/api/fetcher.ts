@@ -25,14 +25,25 @@ export class TypedDetailedError<T> extends DetailedError {
 	}
 }
 
-/** Generic constraint type for Hono RPC client functions */
-export type HonoClientFnGeneric = () => Promise<
+/**
+ * Generic constraint type for Hono RPC client functions (no args)
+ */
+export type HonoClientFetcherFn = () => Promise<
 	ClientResponse<
 		unknown, // NOTE: Actual types are extracted via InferSuccessResponse/InferErrorResponse
 		StatusCode,
 		string
 	>
 >;
+
+/**
+ * Generic constraint type for Hono RPC client functions (with args)
+ */
+export type HonoClientFetcherFnWithArgs = (
+	// NOTE: `any` is required here for contravariance - `unknown` would be too strict and reject specific argument types. The actual type safety comes from InferRequestType.
+	// biome-ignore lint/suspicious/noExplicitAny: Required for generic constraint to accept any argument type
+	args: any,
+) => Promise<ClientResponse<unknown, StatusCode, string>>;
 
 /** Extract success response type (2xx) from Hono client function */
 export type InferSuccessResponse<T> = InferResponseType<T, SuccessStatusCode>;
@@ -49,7 +60,7 @@ export type InferErrorResponse<T> = InferResponseType<
  * - Parses response and extracts typed data
  * - On 4xx/5xx responses, throws TypedDetailedError with RFC 9457 data
  */
-export async function honoFetcher<T extends HonoClientFnGeneric>(
+export async function honoFetcher<T extends HonoClientFetcherFn>(
 	fn: T,
 ): Promise<InferSuccessResponse<T>> {
 	try {

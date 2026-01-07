@@ -1,9 +1,14 @@
 import { createRoute } from "@hono/zod-openapi";
 import { createHono } from "../lib/create-hono";
 import { unprocessableEntityResponseSchema } from "../schemas/error";
-import { getUsersQuerySchema, getUsersResultSchema } from "../schemas/users";
+import {
+	createUserInputSchema,
+	createUserResultSchema,
+	getUsersQuerySchema,
+	getUsersResultSchema,
+} from "../schemas/users";
 
-const route = createRoute({
+const getUsersRoute = createRoute({
 	method: "get",
 	path: "/",
 	tags: ["Users"],
@@ -16,6 +21,33 @@ const route = createRoute({
 				"application/json": { schema: getUsersResultSchema },
 			},
 			description: "ユーザー一覧",
+		},
+		422: {
+			content: {
+				"application/json": { schema: unprocessableEntityResponseSchema },
+			},
+			description: "Validation failed",
+		},
+	},
+});
+
+const createUserRoute = createRoute({
+	method: "post",
+	path: "/",
+	tags: ["Users"],
+	request: {
+		body: {
+			content: {
+				"application/json": { schema: createUserInputSchema },
+			},
+		},
+	},
+	responses: {
+		201: {
+			content: {
+				"application/json": { schema: createUserResultSchema },
+			},
+			description: "ユーザー作成成功",
 		},
 		422: {
 			content: {
@@ -47,11 +79,26 @@ const mockUsers = [
 	},
 ];
 
-export const usersRoute = createHono().openapi(route, async (c) => {
-	const { page, limit } = c.req.valid("query");
+export const usersRoute = createHono()
+	.openapi(getUsersRoute, async (c) => {
+		const { page, limit } = c.req.valid("query");
 
-	const start = (page - 1) * limit;
-	const users = mockUsers.slice(start, start + limit);
+		const start = (page - 1) * limit;
+		const users = mockUsers.slice(start, start + limit);
 
-	return c.json({ users, total: mockUsers.length }, 200);
-});
+		return c.json({ users, total: mockUsers.length }, 200);
+	})
+	.openapi(createUserRoute, async (c) => {
+		const { name, email } = c.req.valid("json");
+
+		const newUser = {
+			id: crypto.randomUUID(),
+			name,
+			email,
+			createdAt: new Date().toISOString(),
+		};
+
+		mockUsers.push(newUser);
+
+		return c.json(newUser, 201);
+	});
