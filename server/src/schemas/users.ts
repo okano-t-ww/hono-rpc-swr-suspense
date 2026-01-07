@@ -23,5 +23,16 @@ export const getUsersResultSchema = z
 	})
 	.openapi("GetUsersResult");
 
+export const createUserInputSchema = z
+	.object({
+		name: z.string().min(1).max(100),
+		email: z.email(),
+	})
+	.openapi("CreateUserInput");
+
+export const createUserResultSchema = userSchema.openapi("CreateUserResult");
+
 export type GetUsersQuery = z.infer<typeof getUsersQuerySchema>;
 export type GetUsersResult = z.infer<typeof getUsersResultSchema>;
+export type CreateUserInput = z.infer<typeof createUserInputSchema>;
+export type CreateUserResult = z.infer<typeof createUserResultSchema>;

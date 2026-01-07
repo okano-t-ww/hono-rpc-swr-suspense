@@ -1,14 +1,14 @@
 import type { SWRConfiguration } from "swr";
 import useSWR from "swr";
 import {
-	type HonoClientFnGeneric,
+	type HonoClientFetcherFn,
 	honoFetcher,
 	type InferErrorResponse,
 	type InferSuccessResponse,
 	type TypedDetailedError,
 } from "./fetcher";
 
-export function useHc<T extends HonoClientFnGeneric>(
+export function useHc<T extends HonoClientFetcherFn>(
 	key: string | readonly unknown[],
 	fetcher: T,
 	config?: SWRConfiguration<InferSuccessResponse<T>>,
