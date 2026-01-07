@@ -1,5 +1,5 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import type { BaseErrorResponse } from "../schemas/error";
+import type { BaseErrorResponse } from "../schemas/error.schema";
 
 /**
  * Creates an OpenAPIHono instance with RFC 9457 compliant defaultHook

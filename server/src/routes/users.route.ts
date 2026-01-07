@@ -1,12 +1,12 @@
 import { createRoute } from "@hono/zod-openapi";
 import { createHono } from "../lib/create-hono";
-import { unprocessableEntityResponseSchema } from "../schemas/error";
+import { unprocessableEntityResponseSchema } from "../schemas/error.schema";
 import {
 	createUserInputSchema,
 	createUserResultSchema,
 	getUsersQuerySchema,
 	getUsersResultSchema,
-} from "../schemas/users";
+} from "../schemas/users.schema";
 
 const getUsersRoute = createRoute({
 	method: "get",
