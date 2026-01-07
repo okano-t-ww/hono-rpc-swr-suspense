@@ -54,7 +54,7 @@ export function CreateUserForm() {
 					{error.data.errors && (
 						<ul>
 							{error.data.errors.map((err) => (
-								<li key={JSON.stringify(err)}>{JSON.stringify(err)}</li>
+								<li key={err?.toString()}>{JSON.stringify(err)}</li>
 							))}
 						</ul>
 					)}
