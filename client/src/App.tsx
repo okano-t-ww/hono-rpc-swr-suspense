@@ -15,7 +15,8 @@ export default function App() {
 			<section style={{ marginBottom: "2rem" }}>
 				<h2>Create User</h2>
 				<p style={{ color: "#666", fontSize: "0.9rem" }}>
-					100文字超のnameや不正なemailでバリデーションエラー (422) を再現できます。
+					100文字超のnameや不正なemailでバリデーションエラー (422)
+					を再現できます。
 				</p>
 				<CreateUserForm />
 			</section>

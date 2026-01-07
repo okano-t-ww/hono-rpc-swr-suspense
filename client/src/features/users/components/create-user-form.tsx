@@ -49,7 +49,9 @@ export function CreateUserForm() {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div style={{ marginBottom: "1rem" }}>
-				<span style={{ marginRight: "0.5rem", fontSize: "0.9rem" }}>プリセット:</span>
+				<span style={{ marginRight: "0.5rem", fontSize: "0.9rem" }}>
+					プリセット:
+				</span>
 				{Object.entries(presets).map(([key, preset]) => (
 					<button
 						key={key}
@@ -79,7 +81,9 @@ export function CreateUserForm() {
 						style={{ marginLeft: "8px", width: "200px" }}
 					/>
 					{name.length > 100 && (
-						<span style={{ color: "red", marginLeft: "8px", fontSize: "0.85rem" }}>
+						<span
+							style={{ color: "red", marginLeft: "8px", fontSize: "0.85rem" }}
+						>
 							({name.length}文字 - 100文字超過)
 						</span>
 					)}

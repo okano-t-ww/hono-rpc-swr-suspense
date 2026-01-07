@@ -44,9 +44,7 @@ export function ErrorFallback({
 					margin: "0.5rem 0",
 				}}
 			>
-				{isTypedError
-					? JSON.stringify(error.data, null, 2)
-					: error.message}
+				{isTypedError ? JSON.stringify(error.data, null, 2) : error.message}
 			</pre>
 			<button
 				type="button"
