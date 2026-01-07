@@ -14,10 +14,6 @@ export function ErrorTypeTest() {
 	}
 
 	if (error) {
-		console.log("=== Error Type Test ===");
-		console.log("error:", error);
-		console.log("error.data:", error.data);
-
 		return (
 			<div style={{ border: "2px solid red", padding: "1rem", margin: "1rem" }}>
 				<h3>Error Type Test Result</h3>
