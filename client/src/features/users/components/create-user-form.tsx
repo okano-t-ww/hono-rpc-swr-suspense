@@ -8,13 +8,18 @@ export function CreateUserForm() {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		try {
-			await trigger({ json: { name, email } });
-			setName("");
-			setEmail("");
-		} catch {
-			// Error is handled by SWR state
-		}
+		await trigger(
+			{ json: { name, email } },
+			{
+				onSuccess: () => {
+					setName("");
+					setEmail("");
+				},
+				onError: (error) => {
+					console.error("Error creating user:", error);
+				},
+			},
+		);
 	};
 
 	return (
