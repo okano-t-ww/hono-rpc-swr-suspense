@@ -15,7 +15,8 @@ export function useHcSuspense<T extends HonoClientFetcherFn>(
 ) {
 	return useSWR<
 		InferSuccessResponse<T>,
-		TypedDetailedError<InferErrorResponse<T>>
+		TypedDetailedError<InferErrorResponse<T>>,
+		SWRConfiguration<InferSuccessResponse<T>> & { suspense: true }
 	>(key, () => honoFetcher(fetcher), {
 		...config,
 		suspense: true,

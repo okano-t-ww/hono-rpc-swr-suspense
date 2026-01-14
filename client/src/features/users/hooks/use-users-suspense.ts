@@ -6,6 +6,5 @@ export function useUsersSuspense({ page, limit }: GetUsersQuery) {
 		client.users.$get({ query: { page, limit } }),
 	);
 
-	// biome-ignore lint/style/noNonNullAssertion: Suspense mode guarantees data is defined
-	return { data: data! };
+	return { data: data };
 }
